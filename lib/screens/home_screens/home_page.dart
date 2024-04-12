@@ -83,6 +83,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         }
                         return null;
                       },
+                      onFieldSubmitted: (v) async {
+                        if (!formKey.currentState!.validate()) return;
+                        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+                        final item = TaskData.addTask(taskController.text.trim());
+                        sharedPreferences.setString(item.taskId!, jsonEncode(item.toJson()));
+                        taskController.clear();
+                        setState(() {});
+                      },
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
